@@ -43,6 +43,16 @@ models:
         - 'powerbi'
         - 'report'
       schema: marts
+      analytics:
+        stablecoin_activity_per_day:
+          +post-hook:
+            - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+            - GRANT USAGE ON SCHEMA DBT.DBT_ML TO ROLE TESTER;
+            - GRANT USAGE ON DATABASE DBT TO ROLE BA;
+            - GRANT USAGE ON SCHEMA DBT.DBT_ML TO ROLE BA;
+            - "{{ create_latest_version_view() }}"
+          +grants:
+            select: ['BA']
 
 vars:
   token_name_var: 'link'
